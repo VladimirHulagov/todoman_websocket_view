@@ -2,6 +2,7 @@
 
 from time import sleep
 import os
+import sys
 import json
 
 import uvicorn
@@ -83,4 +84,9 @@ async def tasks_changing_monitor():
                 await sio.emit('task_changed', {'data': vtodo})
 
 if __name__ == '__main__':
-    server = uvicorn.run(app, host='127.0.0.1', port=5000)
+    if len(sys.argv) > 1:
+        app_ip = sys.argv[1]
+    else:
+        app_ip = '0.0.0.0'
+
+    server = uvicorn.run(app, host=app_ip, port=5000)
